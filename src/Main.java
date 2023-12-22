@@ -36,12 +36,15 @@ public class Main {
         colours.put("green",0);
         colours.put("blue",0);
         int isBigger = 0;
-        int sum = 0;
+        int product = 1;
+        int sum1 = 0;
+        int sum2 = 0;
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
 
+            //PART ONE
             while ((line = reader.readLine()) != null) {
                 Matcher digitPatternMatcher = digitPattern.matcher(line);
                 Matcher colourWithNumberMatcher = colourWithNumber.matcher(line);
@@ -56,43 +59,54 @@ public class Main {
                     String quantity = colourWithNumberMatcher.group(1);
                     String colour = colourWithNumberMatcher.group(2);
                     if(colours.containsKey(colour)){
-                        colours.put(colour,Integer.parseInt(quantity));
+                        //colours.put(colour,Integer.parseInt(quantity));
+                        //PART TWO
+                        if(Integer.parseInt(quantity) > colours.get(colour)){
+                            colours.put(colour,Integer.parseInt(quantity));
+                        }
                     }
 
                     int endOfMatch = colourWithNumberMatcher.end();
 
+//                    if(endOfMatch + 1 > line.length()){
+//                        if(colours.get("red") > 12 || colours.get("green") > 13 || colours.get("blue") > 14) {
+//                            isBigger = -1;
+//                            break;
+//                        }
+//                        colours.forEach((key,value) ->{
+//                            colours.put(key, 0);
+//                        });
+//                    }
+//                    else if(line.charAt(endOfMatch) == ';'){
+//                        if(colours.get("red") > 12 || colours.get("green") > 13 || colours.get("blue") > 14) {
+//                            isBigger = -1;
+//                            break;
+//                        }
+//                        colours.forEach((key,value) ->{
+//                            colours.put(key, 0);
+//                        });
+//                    }
+                    //PART TWO
                     if(endOfMatch + 1 > line.length()){
-                        if(colours.get("red") > 12 || colours.get("green") > 13 || colours.get("blue") > 14) {
-                            isBigger = -1;
-                            break;
-                        }
-                        colours.forEach((key,value) ->{
-                            colours.put(key, 0);
-                        });
-                    }
-                    else if(line.charAt(endOfMatch) == ';'){
-                        if(colours.get("red") > 12 || colours.get("green") > 13 || colours.get("blue") > 14) {
-                            isBigger = -1;
-                            break;
-                        }
-                        colours.forEach((key,value) ->{
-                            colours.put(key, 0);
-                        });
+                        product = colours.get("red") * colours.get("green") * colours.get("blue");
+                        sum2 += product;
+                        product = 1;
                     }
                 }
 
-                if(isBigger != -1){
-                    sum += Integer.parseInt(gameNumberBuffer.toString());
-                }
+//                if(isBigger != -1){
+//                    sum1 += Integer.parseInt(gameNumberBuffer.toString());
+//                }
 
                 gameNumberBuffer.delete(0,gameNumberBuffer.length());
                 colours.forEach((key,value) ->{
                     colours.put(key, 0);
                 });
-                isBigger = 0;
+//                isBigger = 0;
             }
 
-            System.out.println("Sum: " + sum);
+//            System.out.println("Sum1: " + sum1);
+            System.out.println("Sum2: " + sum2);
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found");
